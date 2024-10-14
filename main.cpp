@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <assert.h>
+
+const uint64_t canary = 0xDED;
 
 struct Stack_t
 {
+    uint64_t canary1;
     size_t capacity;
     size_t size;
     int* data;
+    uint64_t canary2;
 };
 
 void PushStack(Stack_t* stk, int n);
@@ -17,6 +22,8 @@ void PrintStack(Stack_t stk);
 int main()
 {
     Stack_t stk = {};
+    stk.canary1 = canary;
+    stk.canary2 = canary;
     stk.capacity = 100;
     stk.size = 0;
     stk.data = (int*)calloc(stk.capacity, sizeof(int));
@@ -50,6 +57,7 @@ void PopStack(Stack_t* stk)
 {
     assert(stk->size < stk->capacity);
 
+    printf("I popped %d\n", stk->data[stk->size - 1]);
     stk->data[stk->size] = 0;
     stk->size--;
 }
