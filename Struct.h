@@ -5,13 +5,24 @@
 
 const uint64_t canary = 0xDEDDEDDEDDEDDEDF;
 
-struct Stack_t
+
+struct Stack_parameters
 {
-    uint64_t canarystart;
     size_t capacity;
     size_t size;
+};
+
+struct Stack_data
+{
+    uint64_t canarystart;
     int* data;
     uint64_t canaryend;
+};
+
+struct Stack_t
+{
+    struct Stack_parameters params;
+    struct Stack_data stkdata;
 };
 
 #endif

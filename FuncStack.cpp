@@ -6,51 +6,49 @@
 
 void PushStack(Stack_t* stk, int n)
 {
-    if (stk->size + 1 > stk->capacity)
+    if (stk->params.size + 1 > stk->params.capacity)
     {
-        stk->data = (int*)realloc(stk->data, 2 * stk->size * sizeof(int));
+        stk->stkdata.data = (int*)realloc(stk->stkdata.data, 2 * stk->params.size * sizeof(int));
     }
-    stk->data[stk->size] = n;
-    stk->size++;
+    stk->stkdata.data[stk->params.size] = n;
+    stk->params.size++;
 }
 
 int PopStack(Stack_t* stk)
 {
-    if (4 * (stk->size - 1) < stk->capacity)
+    if (4 * (stk->params.size - 1) < stk->params.capacity)
     {
-        stk->data = (int*)realloc(stk->data, stk->size * sizeof(int) / 2);
+        stk->stkdata.data = (int*)realloc(stk->stkdata.data, stk->params.size * sizeof(int) / 2);
     }
-    printf("I popped %d\n", stk->data[stk->size - 1]);
-    int temp = stk->data[stk->size];
-    stk->data[stk->size] = 0;
-    stk->size--;
+    printf("I popped %d\n", stk->stkdata.data[stk->params.size - 1]);
+    int temp = stk->stkdata.data[stk->params.size];
+    stk->stkdata.data[stk->params.size] = 0;
+    stk->params.size--;
     return temp;
 }
 
 void InitStack(Stack_t* stk)
 {
-    stk->canarystart = canary;
-    stk->canaryend = canary;
-    stk->capacity = 8;
-    stk->size = 0;
-    stk->data = (int*)calloc(stk->capacity, sizeof(int));
+    stk->stkdata.canarystart = canary;
+    stk->stkdata.canaryend = canary;
+    stk->params.capacity = 8;
+    stk->params.size = 0;
+    stk->stkdata.data = (int*)calloc(stk->params.capacity, sizeof(int));
 }
 
 void DestroyStack(Stack_t* stk)
 {
-    stk->canarystart = 0;
-    stk->canaryend = 0;
-    stk->capacity = 0;
-    stk->size = 0;
-    free(stk->data);
+    stk->stkdata.canarystart = 0;
+    stk->stkdata.canaryend = 0;
+    stk->params.capacity = 0;
+    stk->params.size = 0;
+    free(stk->stkdata.data);
 }
 
 void DumpStack(Stack_t stk)
 {
-    assert(stk.size <= stk.capacity);
-
-    for (size_t i = 0; i < stk.size; i++)
+    for (size_t i = 0; i < stk.params.size; i++)
     {
-        printf("%d\n", stk.data[i]);
+        printf("%d\n", stk.stkdata.data[i]);
     }
 }
