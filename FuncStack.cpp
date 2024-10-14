@@ -4,24 +4,6 @@
 #include "Struct.h"
 #include "FuncStack.h"
 
-void InitStack(Stack_t* stk)
-{
-    stk->canarystart = canary;
-    stk->canaryend = canary;
-    stk->capacity = 8;
-    stk->size = 0;
-    stk->data = (int*)calloc(stk->capacity, sizeof(int));
-}
-
-void DestroyStack(Stack_t* stk)
-{
-    stk->canarystart = 0;
-    stk->canaryend = 0;
-    stk->capacity = 0;
-    stk->size = 0;
-    free(stk->data);
-}
-
 void PushStack(Stack_t* stk, int n)
 {
     if (stk->size + 1 > stk->capacity)
@@ -43,6 +25,24 @@ int PopStack(Stack_t* stk)
     stk->data[stk->size] = 0;
     stk->size--;
     return temp;
+}
+
+void InitStack(Stack_t* stk)
+{
+    stk->canarystart = canary;
+    stk->canaryend = canary;
+    stk->capacity = 8;
+    stk->size = 0;
+    stk->data = (int*)calloc(stk->capacity, sizeof(int));
+}
+
+void DestroyStack(Stack_t* stk)
+{
+    stk->canarystart = 0;
+    stk->canaryend = 0;
+    stk->capacity = 0;
+    stk->size = 0;
+    free(stk->data);
 }
 
 void DumpStack(Stack_t stk)
