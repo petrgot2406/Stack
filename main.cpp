@@ -14,6 +14,7 @@ struct Stack_t
     uint64_t canary2;
 };
 
+void PutParamsToStack(Stack_t* stk);
 void PushStack(Stack_t* stk, int n);
 void PopStack(Stack_t* stk);
 int PeekStack(Stack_t stk);
@@ -22,11 +23,8 @@ void PrintStack(Stack_t stk);
 int main()
 {
     Stack_t stk = {};
-    stk.canary1 = canary;
-    stk.canary2 = canary;
-    stk.capacity = 100;
-    stk.size = 0;
-    stk.data = (int*)calloc(stk.capacity, sizeof(int));
+
+    PutParamsToStack(&stk);
 
     PushStack(&stk, 10);
     PushStack(&stk, 20);
@@ -43,6 +41,15 @@ int main()
 
     free(stk.data);
     return 0;
+}
+
+void PutParamsToStack(Stack_t* stk)
+{
+    stk->canary1 = canary;
+    stk->canary2 = canary;
+    stk->capacity = 100;
+    stk->size = 0;
+    stk->data = (int*)calloc(stk->capacity, sizeof(int));
 }
 
 void PushStack(Stack_t* stk, int n)
