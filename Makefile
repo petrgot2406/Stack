@@ -3,5 +3,5 @@ WINFLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-e
 CC = g++
 
 all:
-	$(CC) -c .\main.cpp .\InitDestroy.cpp .\FuncStack.cpp .\Output.cpp $(WINFLAGS)
-	$(CC) .\main.o .\InitDestroy.o .\FuncStack.o .\Output.o -o .\Stack.exe
+	$(CC) -c .\main.cpp .\FuncStack.cpp $(WINFLAGS)
+	$(CC) .\main.o .\FuncStack.o -o .\Stack.exe

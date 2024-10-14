@@ -3,9 +3,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include "Struct.h"
-#include "InitDestroy.h"
 #include "FuncStack.h"
-#include "Output.h"
 
 int main()
 {
@@ -24,7 +22,7 @@ int main()
     PushStack(&stk, 80);
     PushStack(&stk, 90);
 
-    PrintStack(stk);
+    DumpStack(stk);
 
     DestroyStack(&stk);
 

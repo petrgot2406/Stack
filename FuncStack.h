@@ -3,8 +3,10 @@
 
 #include "Struct.h"
 
+void InitStack(Stack_t* stk);
+void DestroyStack(Stack_t* stk);
 void PushStack(Stack_t* stk, int n);
-void PopStack(Stack_t* stk);
-int PeekStack(Stack_t stk);
+int PopStack(Stack_t* stk);
+void DumpStack(Stack_t stk);
 
 #endif
