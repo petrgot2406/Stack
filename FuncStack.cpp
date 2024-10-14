@@ -8,7 +8,8 @@ void PushStack(Stack_t* stk, int n)
 {
     if (stk->params.size + 1 > stk->params.capacity)
     {
-        stk->stkdata.data = (int*)realloc(stk->stkdata.data, 2 * stk->params.size * sizeof(int));
+        stk->stkdata.data = (int*)realloc(stk->stkdata.data,
+                                          2 * stk->params.size * sizeof(int));
     }
     stk->stkdata.data[stk->params.size] = n;
     stk->params.size++;
@@ -18,7 +19,8 @@ int PopStack(Stack_t* stk)
 {
     if (4 * (stk->params.size - 1) < stk->params.capacity)
     {
-        stk->stkdata.data = (int*)realloc(stk->stkdata.data, stk->params.size * sizeof(int) / 2);
+        stk->stkdata.data = (int*)realloc(stk->stkdata.data,
+                                          stk->params.size * sizeof(int) / 2);
     }
     printf("I popped %d\n", stk->stkdata.data[stk->params.size - 1]);
     int temp = stk->stkdata.data[stk->params.size];
