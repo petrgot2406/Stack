@@ -5,7 +5,7 @@
 
 void PrintStack(Stack_t stk)
 {
-    assert(stk.size < stk.capacity);
+    assert(stk.size <= stk.capacity);
 
     for (size_t i = 0; i < stk.size; i++)
     {

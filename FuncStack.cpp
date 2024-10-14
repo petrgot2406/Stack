@@ -6,18 +6,20 @@
 
 void PushStack(Stack_t* stk, int n)
 {
-    assert(stk->size < stk->capacity);
-
-    stk->data = (int*)realloc(stk->data, (stk->size + 1) * sizeof(int));
+    if (stk->size + 1 > stk->capacity)
+    {
+        stk->data = (int*)realloc(stk->data, 2 * stk->size * sizeof(int));
+    }
     stk->data[stk->size] = n;
     stk->size++;
 }
 
 void PopStack(Stack_t* stk)
 {
-    assert(stk->size < stk->capacity);
-
-    stk->data = (int*)realloc(stk->data, (stk->size - 1) * sizeof(int));
+    if (4 * (stk->size - 1) < stk->capacity)
+    {
+        stk->data = (int*)realloc(stk->data, stk->size * sizeof(int) / 2);
+    }
     printf("I popped %d\n", stk->data[stk->size - 1]);
     stk->data[stk->size] = 0;
     stk->size--;
@@ -25,7 +27,5 @@ void PopStack(Stack_t* stk)
 
 int PeekStack(Stack_t stk)
 {
-    assert(stk.size < stk.capacity);
-
     return stk.data[stk.size - 1];
 }

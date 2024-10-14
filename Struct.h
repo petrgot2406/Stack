@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-const uint64_t canary = 0xDED;
+const uint64_t canary = 0xDEDDEDDEDDEDDEDF;
 
 struct Stack_t
 {
