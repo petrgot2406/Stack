@@ -27,5 +27,6 @@ int main()
     PrintStack(stk);
 
     DestroyStack(&stk);
+
     return 0;
 }

@@ -9,7 +9,7 @@ void InitStack(Stack_t* stk)
     stk->canaryend = canary;
     stk->capacity = 100;
     stk->size = 0;
-    stk->data = (int*)calloc(stk->capacity, sizeof(int));
+    stk->data = (int*)calloc(stk->size, sizeof(int));
 }
 
 void DestroyStack(Stack_t* stk)
