@@ -6,10 +6,13 @@
 
 void PushStack(Stack_t* stk, int n)
 {
+    assert(stk->params.size <= stk->params.capacity);
+
     if (stk->params.size + 1 > stk->params.capacity)
     {
         stk->stkdata.data = (int*)realloc(stk->stkdata.data,
-                                          2 * stk->params.size * sizeof(int));
+                                          2 * stk->params.capacity * sizeof(int));
+        stk->params.capacity = stk->params.capacity * 2;
     }
     stk->stkdata.data[stk->params.size] = n;
     stk->params.size++;
@@ -17,10 +20,13 @@ void PushStack(Stack_t* stk, int n)
 
 int PopStack(Stack_t* stk)
 {
+    assert(stk->params.size <= stk->params.capacity);
+
     if (4 * (stk->params.size - 1) < stk->params.capacity)
     {
         stk->stkdata.data = (int*)realloc(stk->stkdata.data,
-                                          stk->params.size * sizeof(int) / 2);
+                                          stk->params.capacity * sizeof(int) / 2);
+        stk->params.capacity = stk->params.capacity / 2;
     }
     printf("I popped %d\n", stk->stkdata.data[stk->params.size - 1]);
     int temp = stk->stkdata.data[stk->params.size];
@@ -49,8 +55,11 @@ void DestroyStack(Stack_t* stk)
 
 void DumpStack(Stack_t stk)
 {
+    printf("Capacity = %d\n", stk.params.capacity);
+    printf("Size = %d\n", stk.params.size);
+    printf("Data:\n");
     for (size_t i = 0; i < stk.params.size; i++)
     {
-        printf("%d\n", stk.stkdata.data[i]);
+        printf("stack[%d] = %d\n", i, stk.stkdata.data[i]);
     }
 }
