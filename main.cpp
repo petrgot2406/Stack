@@ -17,10 +17,10 @@ int main()
     PushStack(&stk, 40);
     PushStack(&stk, 50);
     PushStack(&stk, 60);
-    PopStack(&stk);
+    PushStack(&stk, 60);
     PushStack(&stk, 70);
     PushStack(&stk, 80);
-    PushStack(&stk, 90);
+    PopStack(&stk);
     PopStack(&stk);
     PopStack(&stk);
     PopStack(&stk);
