@@ -21,9 +21,13 @@ int main()
     PushStack(&stk, 70);
     PushStack(&stk, 80);
     PushStack(&stk, 90);
-    PushStack(&stk, 100);
-
-    DumpStack(stk);
+    PopStack(&stk);
+    PopStack(&stk);
+    PopStack(&stk);
+    PopStack(&stk);
+    PopStack(&stk);
+    PopStack(&stk);
+    PopStack(&stk);
 
     DestroyStack(&stk);
 
