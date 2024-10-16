@@ -11,7 +11,7 @@ void PushStack(Stack_t* stk, int n)
     if (stk->params.size + 1 > stk->params.capacity)
     {
         stk->stkdata.data = (int*)realloc(stk->stkdata.data,
-                                          2 * stk->params.capacity * sizeof(int));
+                                          stk->params.capacity * sizeof(int) * 2);
         stk->params.capacity = stk->params.capacity * 2;
     }
     stk->stkdata.data[stk->params.size] = n;
