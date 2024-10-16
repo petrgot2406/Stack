@@ -31,7 +31,6 @@ int PopStack(Stack_t* stk)
                                           stk->params.capacity * sizeof(int) / 2);
         stk->params.capacity = stk->params.capacity / 2;
     }
-    //printf("pop %d\n", stk->stkdata.data[stk->params.size - 1]);
     printf("pop\n");
     int temp = stk->stkdata.data[stk->params.size];
     stk->stkdata.data[stk->params.size] = 0;
