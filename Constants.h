@@ -13,7 +13,8 @@ enum error_t
 {
     FOUND_OK = 0,
     ERROR_ADDRESS = 1,
-    ERROR_OVERFLOW = 2
+    ERROR_OVERFLOW = 2,
+    ERROR_CANARY_STACK = 3
 };
 
 #endif

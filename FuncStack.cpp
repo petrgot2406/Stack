@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include "Constants.h"
 #include "FuncStack.h"
 #include "Struct.h"
@@ -16,6 +15,11 @@ error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
+    }
+    if (stk->canary_start != canary || stk->canary_end != canary)
+    {
+        printf("ERROR IN CANARY STACK!\n");
+        return ERROR_CANARY_STACK;
     }
 
     if (stk->size + 2 > stk->capacity)
@@ -42,6 +46,11 @@ error_t PopStack(Stack_t* stk)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
+    }
+    if (stk->canary_start != canary || stk->canary_end != canary)
+    {
+        printf("ERROR IN CANARY STACK!\n");
+        return ERROR_CANARY_STACK;
     }
 
     if (4 * (stk->size - 2) < stk->capacity)
@@ -80,6 +89,11 @@ error_t DestroyStack(Stack_t* stk)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
+    if (stk->canary_start != canary || stk->canary_end != canary)
+    {
+        printf("ERROR IN CANARY STACK!\n");
+        return ERROR_CANARY_STACK;
+    }
 
     stk->canary_start = 0;
     stk->canary_end = 0;
@@ -89,8 +103,19 @@ error_t DestroyStack(Stack_t* stk)
     return FOUND_OK;
 }
 
-void DumpStack(Stack_t stk)
+error_t DumpStack(Stack_t stk)
 {
+    if (&stk == NULL)
+    {
+        printf("ERROR IN ADDRESS OF STACK!\n");
+        return ERROR_ADDRESS;
+    }
+    if (stk.canary_start != canary || stk.canary_end != canary)
+    {
+        printf("ERROR IN CANARY STACK!\n");
+        return ERROR_CANARY_STACK;
+    }
+
     printf("dump\n");
     printf("Capacity = %d\n", stk.capacity);
     printf("Size = %d\n", stk.size);
@@ -100,4 +125,5 @@ void DumpStack(Stack_t stk)
         printf_elem(i, stk.data[i]);
     }
     printf("\n");
+    return FOUND_OK;
 }
