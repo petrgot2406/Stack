@@ -3,26 +3,16 @@
 
 #include <stdint.h>
 
-const uint64_t canary = 0xDEDDEDDEDDEDDEDF;
-
-
-struct Stack_parameters
-{
-    size_t capacity;
-    size_t size;
-};
-
-struct Stack_data
-{
-    uint64_t canarystart;
-    int* data;
-    uint64_t canaryend;
-};
+#define CANARY 0xDEDDEDDEDDEDDEDF
+#define BUFSIZE 8
 
 struct Stack_t
 {
-    struct Stack_parameters params;
-    struct Stack_data stkdata;
+    uint64_t canary_start;
+    int* data;
+    size_t capacity;
+    size_t size;
+    uint64_t canary_end;
 };
 
 #endif
