@@ -5,7 +5,7 @@
 #include "FuncStack.h"
 #include "Struct.h"
 
-error_t PushStack(Stack_t* stk, stackelem_t elem)
+error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
     if (stk == NULL)
     {
@@ -24,8 +24,8 @@ error_t PushStack(Stack_t* stk, stackelem_t elem)
                                           stk->capacity * sizeof(stackelem_t) * 2);
         stk->capacity = stk->capacity * 2;
     }
-    printf("push %d\n", elem);
-    stk->data[stk->size] = elem;
+    printf("push %d\n", new_elem);
+    stk->data[stk->size] = new_elem;
     stk->size++;
     DumpStack(*stk);
     return FOUND_OK;
