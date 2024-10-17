@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "Struct.h"
+#include "Constants.h"
 #include "FuncStack.h"
+#include "Struct.h"
 
 int PushStack(Stack_t* stk, int n)
 {
@@ -41,9 +42,9 @@ int PopStack(Stack_t* stk)
 
 void InitStack(Stack_t* stk)
 {
-    stk->canary_start = CANARY;
-    stk->canary_end = CANARY;
-    stk->capacity = BUFSIZE;
+    stk->canary_start = canary;
+    stk->canary_end = canary;
+    stk->capacity = 8;
     stk->size = 0;
     stk->data = (int*)calloc(stk->capacity, sizeof(int));
 }
@@ -65,7 +66,7 @@ void DumpStack(Stack_t stk)
     printf("Data:\n");
     for (size_t i = 0; i < stk.size; i++)
     {
-        printf("stack[%d] = %d\n", i, stk.data[i]);
+        printf_elem(i, stk.data[i]);
     }
     printf("\n");
 }

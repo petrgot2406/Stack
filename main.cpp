@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <assert.h>
-#include "Struct.h"
+#include "Constants.h"
 #include "FuncStack.h"
+#include "Struct.h"
 
 int main()
 {
@@ -28,7 +29,6 @@ int main()
     PushStack(&stk, 140);
     PushStack(&stk, 150);
     PushStack(&stk, 160);
-    PopStack(&stk);
     PopStack(&stk);
     PopStack(&stk);
     PopStack(&stk);

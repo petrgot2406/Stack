@@ -1,18 +1,15 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
-#include <stdint.h>
-
-#define CANARY 0xDEDDEDDEDDEDDEDF
-#define BUFSIZE 8
+#include "Constants.h"
 
 struct Stack_t
 {
-    uint64_t canary_start;
+    canary_type canary_start;
     int* data;
     size_t capacity;
     size_t size;
-    uint64_t canary_end;
+    canary_type canary_end;
 };
 
 #endif
