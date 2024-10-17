@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Constants.h"
 #include "FuncStack.h"
 #include "Struct.h"
 
-error_t PushStack(Stack_t* stk, stackelem_t new_elem)
+Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
     if (stk == NULL)
     {
@@ -25,6 +26,7 @@ error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     if (stk->size + 2 > stk->capacity)
     {
         stk->data = (stackelem_t*)realloc(stk->data,
+                                          sizeof(canary_type) * 2 +
                                           stk->capacity * sizeof(stackelem_t) * 2);
         stk->capacity = stk->capacity * 2;
     }
@@ -35,7 +37,7 @@ error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     return FOUND_OK;
 }
 
-error_t PopStack(Stack_t* stk)
+Error_t PopStack(Stack_t* stk)
 {
     if (stk == NULL)
     {
@@ -56,6 +58,7 @@ error_t PopStack(Stack_t* stk)
     if (4 * (stk->size - 2) < stk->capacity)
     {
         stk->data = (stackelem_t*)realloc(stk->data,
+                                          sizeof(canary_type) * 2 +
                                           stk->capacity * sizeof(stackelem_t) / 2);
         stk->capacity = stk->capacity / 2;
     }
@@ -66,7 +69,7 @@ error_t PopStack(Stack_t* stk)
     return FOUND_OK;
 }
 
-error_t InitStack(Stack_t* stk)
+Error_t InitStack(Stack_t* stk)
 {
     if (stk == NULL)
     {
@@ -76,13 +79,18 @@ error_t InitStack(Stack_t* stk)
 
     stk->canary_start = canary;
     stk->canary_end = canary;
-    stk->capacity = 8;
+
+    stk->capacity = 16;
     stk->size = 0;
-    stk->data = (stackelem_t*)calloc(stk->capacity, sizeof(stackelem_t));
+    canary_type* new_data = (canary_type*)calloc(sizeof(canary_type) * 2 +
+                                                 stk->capacity * sizeof(stackelem_t), 1);
+    *new_data = canary;
+    *((canary_type*)((char*)new_data + sizeof(canary_type) + stk->capacity * sizeof(stackelem_t))) = canary;
+    stk->data = (stackelem_t*)(new_data + 1);
     return FOUND_OK;
 }
 
-error_t DestroyStack(Stack_t* stk)
+Error_t DestroyStack(Stack_t* stk)
 {
     if (stk == NULL)
     {
@@ -99,17 +107,19 @@ error_t DestroyStack(Stack_t* stk)
     stk->canary_end = 0;
     stk->capacity = 0;
     stk->size = 0;
+
     free(stk->data);
     return FOUND_OK;
 }
 
-error_t DumpStack(Stack_t stk)
+Error_t DumpStack(Stack_t stk)
 {
     if (&stk == NULL)
     {
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
+
     if (stk.canary_start != canary || stk.canary_end != canary)
     {
         printf("ERROR IN CANARY STACK!\n");
@@ -120,10 +130,12 @@ error_t DumpStack(Stack_t stk)
     printf("Capacity = %d\n", stk.capacity);
     printf("Size = %d\n", stk.size);
     printf("Data:\n");
+
     for (size_t i = 0; i < stk.size; i++)
     {
         printf_elem(i, stk.data[i]);
     }
+
     printf("\n");
     return FOUND_OK;
 }
