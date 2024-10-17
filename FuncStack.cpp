@@ -12,7 +12,7 @@ int PushStack(Stack_t* stk, stackelem_t n)
     if (stk->size + 2 > stk->capacity)
     {
         stk->data = (stackelem_t*)realloc(stk->data,
-                                  stk->capacity * sizeof(stackelem_t) * 2);
+                                          stk->capacity * sizeof(stackelem_t) * 2);
         stk->capacity = stk->capacity * 2;
     }
     printf("push %d\n", n);
@@ -29,7 +29,7 @@ int PopStack(Stack_t* stk)
     if (4 * (stk->size - 2)< stk->capacity)
     {
         stk->data = (stackelem_t*)realloc(stk->data,
-                                  stk->capacity * sizeof(stackelem_t) / 2);
+                                          stk->capacity * sizeof(stackelem_t) / 2);
         stk->capacity = stk->capacity / 2;
     }
     printf("pop\n");
