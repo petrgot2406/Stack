@@ -12,11 +12,13 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
+
     if (stk->size >= stk->capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
     }
+
     if (stk->canary_start != canary || stk->canary_end != canary)
     {
         printf("ERROR IN CANARY STACK!\n");
@@ -30,10 +32,14 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
                                           stk->capacity * sizeof(stackelem_t) * 2);
         stk->capacity = stk->capacity * 2;
     }
+
     printf("push %d\n", new_elem);
+
     stk->data[stk->size] = new_elem;
     stk->size++;
+
     DumpStack(*stk);
+
     return FOUND_OK;
 }
 
@@ -44,11 +50,13 @@ Error_t PopStack(Stack_t* stk)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
+
     if (stk->size >= stk->capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
     }
+
     if (stk->canary_start != canary || stk->canary_end != canary)
     {
         printf("ERROR IN CANARY STACK!\n");
@@ -62,10 +70,14 @@ Error_t PopStack(Stack_t* stk)
                                           stk->capacity * sizeof(stackelem_t) / 2);
         stk->capacity = stk->capacity / 2;
     }
+
     printf("pop\n");
+
     stk->data[stk->size] = 0;
     stk->size--;
+
     DumpStack(*stk);
+
     return FOUND_OK;
 }
 
@@ -80,13 +92,16 @@ Error_t InitStack(Stack_t* stk)
     stk->canary_start = canary;
     stk->canary_end = canary;
 
-    stk->capacity = 16;
+    stk->capacity = 8;
     stk->size = 0;
+
     canary_type* new_data = (canary_type*)calloc(sizeof(canary_type) * 2 +
                                                  stk->capacity * sizeof(stackelem_t), 1);
     *new_data = canary;
     *((canary_type*)((char*)new_data + sizeof(canary_type) + stk->capacity * sizeof(stackelem_t))) = canary;
+
     stk->data = (stackelem_t*)(new_data + 1);
+
     return FOUND_OK;
 }
 
@@ -97,6 +112,7 @@ Error_t DestroyStack(Stack_t* stk)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
+
     if (stk->canary_start != canary || stk->canary_end != canary)
     {
         printf("ERROR IN CANARY STACK!\n");
@@ -109,6 +125,7 @@ Error_t DestroyStack(Stack_t* stk)
     stk->size = 0;
 
     free(stk->data);
+
     return FOUND_OK;
 }
 
@@ -137,5 +154,6 @@ Error_t DumpStack(Stack_t stk)
     }
 
     printf("\n");
+
     return FOUND_OK;
 }
