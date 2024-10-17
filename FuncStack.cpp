@@ -5,9 +5,19 @@
 #include "FuncStack.h"
 #include "Struct.h"
 
-int PushStack(Stack_t* stk, stackelem_t n)
+error_t PushStack(Stack_t* stk, stackelem_t n)
 {
-    assert(stk->size < stk->capacity);
+    if (stk == NULL)
+    {
+        printf("ERROR IN ADDRESS OF STACK!\n");
+        return ERROR_ADDRESS;
+    }
+
+    if (stk->size >= stk->capacity)
+    {
+        printf("ERROR IN SIZE OF STACK!\n");
+        return ERROR_OVERFLOW;
+    }
 
     if (stk->size + 2 > stk->capacity)
     {
@@ -19,25 +29,34 @@ int PushStack(Stack_t* stk, stackelem_t n)
     stk->data[stk->size] = n;
     stk->size++;
     DumpStack(*stk);
-    return n;
+    return FOUND_OK;
 }
 
-int PopStack(Stack_t* stk)
+error_t PopStack(Stack_t* stk)
 {
-    assert(stk->size < stk->capacity);
+    if (stk == NULL)
+    {
+        printf("ERROR IN ADDRESS OF STACK!\n");
+        return ERROR_ADDRESS;
+    }
 
-    if (4 * (stk->size - 2)< stk->capacity)
+    if (stk->size >= stk->capacity)
+    {
+        printf("ERROR IN SIZE OF STACK!\n");
+        return ERROR_OVERFLOW;
+    }
+
+    if (4 * (stk->size - 2) < stk->capacity)
     {
         stk->data = (stackelem_t*)realloc(stk->data,
                                           stk->capacity * sizeof(stackelem_t) / 2);
         stk->capacity = stk->capacity / 2;
     }
     printf("pop\n");
-    stackelem_t temp = stk->data[stk->size];
     stk->data[stk->size] = 0;
     stk->size--;
     DumpStack(*stk);
-    return temp;
+    return FOUND_OK;
 }
 
 void InitStack(Stack_t* stk)
