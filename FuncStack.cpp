@@ -71,7 +71,7 @@ error_t InitStack(Stack_t* stk)
     stk->canary_end = canary;
     stk->capacity = 8;
     stk->size = 0;
-    stk->data = (int*)calloc(stk->capacity, sizeof(stackelem_t));
+    stk->data = (stackelem_t*)calloc(stk->capacity, sizeof(stackelem_t));
     return FOUND_OK;
 }
 
