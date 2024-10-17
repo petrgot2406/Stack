@@ -8,7 +8,7 @@ int PushStack(Stack_t* stk, int n)
 {
     assert(stk->params.size <= stk->params.capacity);
 
-    if (stk->params.size + 1 > stk->params.capacity)
+    if (stk->params.size + 2 > stk->params.capacity)
     {
         stk->stkdata.data = (int*)realloc(stk->stkdata.data,
                                           stk->params.capacity * sizeof(int) * 2);
@@ -25,7 +25,7 @@ int PopStack(Stack_t* stk)
 {
     assert(stk->params.size <= stk->params.capacity);
 
-    if (4 * (stk->params.size - 1) < stk->params.capacity)
+    if (4 * (stk->params.size - 2)< stk->params.capacity)
     {
         stk->stkdata.data = (int*)realloc(stk->stkdata.data,
                                           stk->params.capacity * sizeof(int) / 2);
