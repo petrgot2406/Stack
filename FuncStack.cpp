@@ -61,7 +61,8 @@ error_t PopStack(Stack_t* stk)
 
 error_t InitStack(Stack_t* stk)
 {
-    if (stk == NULL) {
+    if (stk == NULL)
+    {
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
@@ -76,7 +77,8 @@ error_t InitStack(Stack_t* stk)
 
 error_t DestroyStack(Stack_t* stk)
 {
-    if (stk == NULL) {
+    if (stk == NULL)
+    {
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
