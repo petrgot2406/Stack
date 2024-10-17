@@ -59,22 +59,34 @@ error_t PopStack(Stack_t* stk)
     return FOUND_OK;
 }
 
-void InitStack(Stack_t* stk)
+error_t InitStack(Stack_t* stk)
 {
+    if (stk == NULL) {
+        printf("ERROR IN ADDRESS OF STACK!\n");
+        return ERROR_ADDRESS;
+    }
+
     stk->canary_start = canary;
     stk->canary_end = canary;
     stk->capacity = 8;
     stk->size = 0;
     stk->data = (int*)calloc(stk->capacity, sizeof(stackelem_t));
+    return FOUND_OK;
 }
 
-void DestroyStack(Stack_t* stk)
+error_t DestroyStack(Stack_t* stk)
 {
+    if (stk == NULL) {
+        printf("ERROR IN ADDRESS OF STACK!\n");
+        return ERROR_ADDRESS;
+    }
+
     stk->canary_start = 0;
     stk->canary_end = 0;
     stk->capacity = 0;
     stk->size = 0;
     free(stk->data);
+    return FOUND_OK;
 }
 
 void DumpStack(Stack_t stk)
