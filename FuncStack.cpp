@@ -12,7 +12,6 @@ error_t PushStack(Stack_t* stk, stackelem_t n)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
-
     if (stk->size >= stk->capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
@@ -39,7 +38,6 @@ error_t PopStack(Stack_t* stk)
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
-
     if (stk->size >= stk->capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
