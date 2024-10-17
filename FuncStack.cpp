@@ -5,14 +5,14 @@
 #include "FuncStack.h"
 #include "Struct.h"
 
-int PushStack(Stack_t* stk, int n)
+int PushStack(Stack_t* stk, stackelem_t n)
 {
-    assert(stk->size <= stk->capacity);
+    assert(stk->size < stk->capacity);
 
     if (stk->size + 2 > stk->capacity)
     {
-        stk->data = (int*)realloc(stk->data,
-                                  stk->capacity * sizeof(int) * 2);
+        stk->data = (stackelem_t*)realloc(stk->data,
+                                  stk->capacity * sizeof(stackelem_t) * 2);
         stk->capacity = stk->capacity * 2;
     }
     printf("push %d\n", n);
@@ -24,16 +24,16 @@ int PushStack(Stack_t* stk, int n)
 
 int PopStack(Stack_t* stk)
 {
-    assert(stk->size <= stk->capacity);
+    assert(stk->size < stk->capacity);
 
     if (4 * (stk->size - 2)< stk->capacity)
     {
-        stk->data = (int*)realloc(stk->data,
-                                  stk->capacity * sizeof(int) / 2);
+        stk->data = (stackelem_t*)realloc(stk->data,
+                                  stk->capacity * sizeof(stackelem_t) / 2);
         stk->capacity = stk->capacity / 2;
     }
     printf("pop\n");
-    int temp = stk->data[stk->size];
+    stackelem_t temp = stk->data[stk->size];
     stk->data[stk->size] = 0;
     stk->size--;
     DumpStack(*stk);
@@ -46,7 +46,7 @@ void InitStack(Stack_t* stk)
     stk->canary_end = canary;
     stk->capacity = 8;
     stk->size = 0;
-    stk->data = (int*)calloc(stk->capacity, sizeof(int));
+    stk->data = (int*)calloc(stk->capacity, sizeof(stackelem_t));
 }
 
 void DestroyStack(Stack_t* stk)
