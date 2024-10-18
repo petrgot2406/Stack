@@ -25,6 +25,14 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
         return ERROR_CANARY_STACK;
     }
 
+    if (stk->new_data[0] != canary ||
+        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) +
+                                stk->capacity * sizeof(stackelem_t))) != canary)
+    {
+        printf("ERROR IN CANARY DATA!\n");
+        return ERROR_CANARY_DATA;
+    }
+
     if (stk->size + 2 > stk->capacity)
     {
         stk->capacity = stk->capacity * 2;
@@ -64,6 +72,14 @@ Error_t PopStack(Stack_t* stk)
     {
         printf("ERROR IN CANARY STACK!\n");
         return ERROR_CANARY_STACK;
+    }
+
+    if (stk->new_data[0] != canary ||
+        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) +
+                                stk->capacity * sizeof(stackelem_t))) != canary)
+    {
+        printf("ERROR IN CANARY DATA!\n");
+        return ERROR_CANARY_DATA;
     }
 
     if (4 * (stk->size - 2) < stk->capacity)
