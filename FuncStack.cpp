@@ -23,7 +23,6 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     printf("push %d\n", new_elem);
 
     *((stackelem_t*)(stk->data + 1) + stk->size)= new_elem;
-    //stk->array[stk->size] = new_elem;
     stk->size++;
 
     DumpStack(*stk);
