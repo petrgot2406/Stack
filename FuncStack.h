@@ -9,5 +9,6 @@ Error_t PopStack(Stack_t* stk);
 Error_t InitStack(Stack_t* stk);
 Error_t DestroyStack(Stack_t* stk);
 Error_t DumpStack(Stack_t stk);
+Error_t CheckStack(Stack_t stk);
 
 #endif

@@ -7,30 +7,11 @@
 
 Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
-    if (stk == NULL)
-    {
-        printf("ERROR IN ADDRESS OF STACK!\n");
-        return ERROR_ADDRESS;
-    }
+    Error_t stack_error = CheckStack(*stk);
 
-    if (stk->size >= stk->capacity)
+    if (stack_error != FOUND_OK)
     {
-        printf("ERROR IN SIZE OF STACK!\n");
-        return ERROR_OVERFLOW;
-    }
-
-    if (stk->canary_start != canary || stk->canary_end != canary)
-    {
-        printf("ERROR IN CANARY STACK!\n");
-        return ERROR_CANARY_STACK;
-    }
-
-    if (stk->data[0] != canary ||
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) != canary)
-    {
-        printf("ERROR IN CANARY DATA!\n");
-        return ERROR_CANARY_DATA;
+        return stack_error;
     }
 
     if (stk->size + 2 > stk->capacity)
@@ -59,30 +40,11 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
 Error_t PopStack(Stack_t* stk)
 {
-    if (stk == NULL)
-    {
-        printf("ERROR IN ADDRESS OF STACK!\n");
-        return ERROR_ADDRESS;
-    }
+    Error_t stack_error = CheckStack(*stk);
 
-    if (stk->size >= stk->capacity)
+    if (stack_error != FOUND_OK)
     {
-        printf("ERROR IN SIZE OF STACK!\n");
-        return ERROR_OVERFLOW;
-    }
-
-    if (stk->canary_start != canary || stk->canary_end != canary)
-    {
-        printf("ERROR IN CANARY STACK!\n");
-        return ERROR_CANARY_STACK;
-    }
-
-    if (stk->data[0] != canary ||
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) != canary)
-    {
-        printf("ERROR IN CANARY DATA!\n");
-        return ERROR_CANARY_DATA;
+        return stack_error;
     }
 
     if (4 * (stk->size - 2) < stk->capacity)
@@ -136,24 +98,11 @@ Error_t InitStack(Stack_t* stk)
 
 Error_t DestroyStack(Stack_t* stk)
 {
-    if (stk == NULL)
-    {
-        printf("ERROR IN ADDRESS OF STACK!\n");
-        return ERROR_ADDRESS;
-    }
+    Error_t stack_error = CheckStack(*stk);
 
-    if (stk->canary_start != canary || stk->canary_end != canary)
+    if (stack_error != FOUND_OK)
     {
-        printf("ERROR IN CANARY STACK!\n");
-        return ERROR_CANARY_STACK;
-    }
-
-    if (stk->data[0] != canary ||
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) != canary)
-    {
-        printf("ERROR IN CANARY DATA!\n");
-        return ERROR_CANARY_DATA;
+        return stack_error;
     }
 
     free(stk->data);
@@ -164,10 +113,40 @@ Error_t DestroyStack(Stack_t* stk)
 
 Error_t DumpStack(Stack_t stk)
 {
+    Error_t stack_error = CheckStack(stk);
+
+    if (stack_error != FOUND_OK)
+    {
+        return stack_error;
+    }
+
+    printf("dump\n");
+    printf("Capacity = %d\n", stk.capacity);
+    printf("Size = %d\n", stk.size);
+    printf("Data:\n");
+
+    for (size_t i = 0; i < stk.size; i++)
+    {
+        printf_elem(i, stk.array[i]);
+    }
+
+    printf("\n");
+
+    return FOUND_OK;
+}
+
+Error_t CheckStack(Stack_t stk)
+{
     if (&stk == NULL)
     {
         printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
+    }
+
+    if (stk.size >= stk.capacity)
+    {
+        printf("ERROR IN SIZE OF STACK!\n");
+        return ERROR_OVERFLOW;
     }
 
     if (stk.canary_start != canary || stk.canary_end != canary)
@@ -183,18 +162,6 @@ Error_t DumpStack(Stack_t stk)
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
     }
-
-    printf("dump\n");
-    printf("Capacity = %d\n", stk.capacity);
-    printf("Size = %d\n", stk.size);
-    printf("Data:\n");
-
-    for (size_t i = 0; i < stk.size; i++)
-    {
-        printf_elem(i, stk.array[i]);
-    }
-
-    printf("\n");
 
     return FOUND_OK;
 }
