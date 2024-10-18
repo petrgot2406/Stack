@@ -17,15 +17,13 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     if (stk->size + 2 > stk->capacity)
     {
         stk->capacity *= 2;
-
         ReallocData(stk);
-
-        stk->array = (stackelem_t*)(stk->data + 1);
     }
 
     printf("push %d\n", new_elem);
 
-    stk->array[stk->size] = new_elem;
+    *((stackelem_t*)(stk->data + 1) + stk->size)= new_elem;
+    //stk->array[stk->size] = new_elem;
     stk->size++;
 
     DumpStack(*stk);
@@ -45,15 +43,12 @@ Error_t PopStack(Stack_t* stk)
     if (4 * (stk->size - 2) < stk->capacity)
     {
         stk->capacity /= 2;
-
         ReallocData(stk);
-
-        stk->array = (stackelem_t*)(stk->data + 1);
     }
 
     printf("pop\n");
 
-    stk->array[stk->size] = 0;
+    *((stackelem_t*)(stk->data + 1) + stk->size) = 0;
     stk->size--;
 
     DumpStack(*stk);
@@ -80,8 +75,6 @@ Error_t InitStack(Stack_t* stk)
     stk->data[0] = canary;
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
-
-    stk->array = (stackelem_t*)(stk->data + 1);
 
     return FOUND_OK;
 }
@@ -117,7 +110,7 @@ Error_t DumpStack(Stack_t stk)
 
     for (size_t i = 0; i < stk.size; i++)
     {
-        printf_elem(i, stk.array[i]);
+        printf_elem(i, *((stackelem_t*)(stk.data + 1) + i));
     }
 
     printf("\n");
