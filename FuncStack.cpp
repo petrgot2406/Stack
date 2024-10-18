@@ -7,7 +7,6 @@
 
 Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
-
     Error_t stack_error = CheckStack(*stk);
 
     if (stack_error != FOUND_OK)
@@ -128,16 +127,16 @@ Error_t DumpStack(Stack_t stk)
 
 Error_t CheckStack(Stack_t stk)
 {
-    if (&stk == NULL)
-    {
-        printf("ERROR IN ADDRESS OF STACK!\n");
-        return ERROR_ADDRESS;
-    }
-
     if (stk.size >= stk.capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
+    }
+
+    if (stk.data == NULL)
+    {
+        printf("ERROR IN DATA!\n");
+        return ERROR_DATA;
     }
 
     if (stk.canary_start != canary || stk.canary_end != canary)

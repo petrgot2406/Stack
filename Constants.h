@@ -14,8 +14,9 @@ enum Error_t
     FOUND_OK = 0,
     ERROR_ADDRESS = 1,
     ERROR_OVERFLOW = 2,
-    ERROR_CANARY_STACK = 3,
-    ERROR_CANARY_DATA = 4
+    ERROR_DATA = 3,
+    ERROR_CANARY_STACK = 4,
+    ERROR_CANARY_DATA = 5
 };
 
 #endif
