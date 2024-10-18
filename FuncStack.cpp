@@ -7,6 +7,7 @@
 
 Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
+
     Error_t stack_error = CheckStack(*stk);
 
     if (stack_error != FOUND_OK)
@@ -18,12 +19,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     {
         stk->capacity = stk->capacity * 2;
 
-        stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
-                                          stk->capacity * sizeof(stackelem_t));
-
-        stk->data[0] = canary;
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) = canary;
+        ReallocData(stk);
 
         stk->array = (stackelem_t*)(stk->data + 1);
     }
@@ -35,7 +31,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
     DumpStack(*stk);
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t PopStack(Stack_t* stk)
@@ -51,12 +47,7 @@ Error_t PopStack(Stack_t* stk)
     {
         stk->capacity = stk->capacity / 2;
 
-        stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
-                                          stk->capacity * sizeof(stackelem_t));
-
-        stk->data[0] = canary;
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) = canary;
+        ReallocData(stk);
 
         stk->array = (stackelem_t*)(stk->data + 1);
     }
@@ -68,12 +59,11 @@ Error_t PopStack(Stack_t* stk)
 
     DumpStack(*stk);
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t InitStack(Stack_t* stk)
 {
-    stk = NULL;
     if (stk == NULL)
     {
         printf("ERROR IN ADDRESS OF STACK!\n");
@@ -109,7 +99,7 @@ Error_t DestroyStack(Stack_t* stk)
     free(stk->data);
     free(stk);
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t DumpStack(Stack_t stk)
@@ -133,7 +123,7 @@ Error_t DumpStack(Stack_t stk)
 
     printf("\n");
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t CheckStack(Stack_t stk)
@@ -165,4 +155,23 @@ Error_t CheckStack(Stack_t stk)
     }
 
     return FOUND_OK;
+}
+
+Error_t ReallocData(Stack_t* stk)
+{
+    stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
+                                      stk->capacity * sizeof(stackelem_t));
+
+    stk->data[0] = canary;
+    *((canary_type*)((char*)stk->data + sizeof(canary_type) +
+                      stk->capacity * sizeof(stackelem_t))) = canary;
+
+    Error_t stack_error = CheckStack(*stk);
+
+    if (stack_error != FOUND_OK)
+    {
+        return stack_error;
+    }
+
+    return stack_error;
 }
