@@ -27,7 +27,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
     if (stk->data[0] != canary ||
         *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                                stk->capacity * sizeof(stackelem_t))) != canary)
+                          stk->capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
@@ -37,10 +37,10 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     {
         stk->capacity = stk->capacity * 2;
         stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
-                                              stk->capacity * sizeof(stackelem_t));
+                                          stk->capacity * sizeof(stackelem_t));
         stk->data[0] = canary;
         *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                                stk->capacity * sizeof(stackelem_t))) = canary;
+                          stk->capacity * sizeof(stackelem_t))) = canary;
         stk->array = (stackelem_t*)(stk->data + 1);
     }
 
@@ -76,7 +76,7 @@ Error_t PopStack(Stack_t* stk)
 
     if (stk->data[0] != canary ||
         *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                                stk->capacity * sizeof(stackelem_t))) != canary)
+                          stk->capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
@@ -86,10 +86,10 @@ Error_t PopStack(Stack_t* stk)
     {
         stk->capacity = stk->capacity / 2;
         stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
-                                              stk->capacity * sizeof(stackelem_t));
+                                          stk->capacity * sizeof(stackelem_t));
         stk->data[0] = canary;
         *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                                stk->capacity * sizeof(stackelem_t))) = canary;
+                          stk->capacity * sizeof(stackelem_t))) = canary;
         stk->array = (stackelem_t*)(stk->data + 1);
     }
 
@@ -121,7 +121,7 @@ Error_t InitStack(Stack_t* stk)
                                          stk->capacity * sizeof(stackelem_t), 1);
     stk->data[0] = canary;
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                            stk->capacity * sizeof(stackelem_t))) = canary;
+                      stk->capacity * sizeof(stackelem_t))) = canary;
 
     stk->array = (stackelem_t*)(stk->data + 1);
 
@@ -144,7 +144,7 @@ Error_t DestroyStack(Stack_t* stk)
 
     if (stk->data[0] != canary ||
         *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                                stk->capacity * sizeof(stackelem_t))) != canary)
+                          stk->capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
@@ -176,7 +176,7 @@ Error_t DumpStack(Stack_t stk)
 
     if (stk.data[0] != canary ||
         *((canary_type*)((char*)stk.data + sizeof(canary_type) +
-                                stk.capacity * sizeof(stackelem_t))) != canary)
+                          stk.capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
