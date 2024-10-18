@@ -73,6 +73,7 @@ Error_t PopStack(Stack_t* stk)
 
 Error_t InitStack(Stack_t* stk)
 {
+    stk = NULL;
     if (stk == NULL)
     {
         printf("ERROR IN ADDRESS OF STACK!\n");
