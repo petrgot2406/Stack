@@ -28,9 +28,11 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     if (stk->size + 2 > stk->capacity)
     {
         stk->capacity = stk->capacity * 2;
-        stk->new_data = (canary_type*)realloc(stk->new_data, sizeof(canary_type) * 2 + stk->capacity * sizeof(stackelem_t));
+        stk->new_data = (canary_type*)realloc(stk->new_data, sizeof(canary_type) * 2 +
+                                              stk->capacity * sizeof(stackelem_t));
         stk->new_data[0] = canary;
-        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) + stk->capacity * sizeof(stackelem_t))) = canary;
+        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) +
+                                stk->capacity * sizeof(stackelem_t))) = canary;
         stk->data = (stackelem_t*)(stk->new_data + 1);
     }
 
@@ -67,9 +69,11 @@ Error_t PopStack(Stack_t* stk)
     if (4 * (stk->size - 2) < stk->capacity)
     {
         stk->capacity = stk->capacity / 2;
-        stk->new_data = (canary_type*)realloc(stk->new_data, sizeof(canary_type) * 2 + stk->capacity * sizeof(stackelem_t));
+        stk->new_data = (canary_type*)realloc(stk->new_data, sizeof(canary_type) * 2 +
+                                              stk->capacity * sizeof(stackelem_t));
         stk->new_data[0] = canary;
-        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) + stk->capacity * sizeof(stackelem_t))) = canary;
+        *((canary_type*)((char*)stk->new_data + sizeof(canary_type) +
+                                stk->capacity * sizeof(stackelem_t))) = canary;
         stk->data = (stackelem_t*)(stk->new_data + 1);
     }
 
@@ -98,9 +102,10 @@ Error_t InitStack(Stack_t* stk)
     stk->size = 0;
 
     stk->new_data = (canary_type*)calloc(sizeof(canary_type) * 2 +
-                                                 stk->capacity * sizeof(stackelem_t), 1);
+                                         stk->capacity * sizeof(stackelem_t), 1);
     stk->new_data[0] = canary;
-    *((canary_type*)((char*)stk->new_data + sizeof(canary_type) + stk->capacity * sizeof(stackelem_t))) = canary;
+    *((canary_type*)((char*)stk->new_data + sizeof(canary_type) +
+                            stk->capacity * sizeof(stackelem_t))) = canary;
 
     stk->data = (stackelem_t*)(stk->new_data + 1);
 
