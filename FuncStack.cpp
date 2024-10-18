@@ -16,7 +16,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
     if (stk->size + 2 > stk->capacity)
     {
-        stk->capacity = stk->capacity * 2;
+        stk->capacity *= 2;
 
         ReallocData(stk);
 
@@ -44,7 +44,7 @@ Error_t PopStack(Stack_t* stk)
 
     if (4 * (stk->size - 2) < stk->capacity)
     {
-        stk->capacity = stk->capacity / 2;
+        stk->capacity /= 2;
 
         ReallocData(stk);
 
