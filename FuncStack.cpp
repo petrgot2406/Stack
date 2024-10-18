@@ -156,12 +156,8 @@ Error_t DestroyStack(Stack_t* stk)
         return ERROR_CANARY_DATA;
     }
 
-    stk->canary_start = 0;
-    stk->canary_end = 0;
-    stk->capacity = 0;
-    stk->size = 0;
-
     free(stk->data);
+    free(stk);
 
     return FOUND_OK;
 }
