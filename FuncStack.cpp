@@ -142,6 +142,14 @@ Error_t DestroyStack(Stack_t* stk)
         return ERROR_CANARY_STACK;
     }
 
+    if (stk->data[0] != canary ||
+        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
+                                stk->capacity * sizeof(stackelem_t))) != canary)
+    {
+        printf("ERROR IN CANARY DATA!\n");
+        return ERROR_CANARY_DATA;
+    }
+
     stk->canary_start = 0;
     stk->canary_end = 0;
     stk->capacity = 0;
@@ -164,6 +172,14 @@ Error_t DumpStack(Stack_t stk)
     {
         printf("ERROR IN CANARY STACK!\n");
         return ERROR_CANARY_STACK;
+    }
+
+    if (stk.data[0] != canary ||
+        *((canary_type*)((char*)stk.data + sizeof(canary_type) +
+                                stk.capacity * sizeof(stackelem_t))) != canary)
+    {
+        printf("ERROR IN CANARY DATA!\n");
+        return ERROR_CANARY_DATA;
     }
 
     printf("dump\n");
