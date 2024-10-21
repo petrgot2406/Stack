@@ -89,6 +89,7 @@ Error_t InitStack(Stack_t* stk)
 
 Error_t DestroyStack(Stack_t* stk)
 {
+
     Error_t stack_error = CheckStack(*stk);
 
     if (stack_error != FOUND_OK)
@@ -96,10 +97,14 @@ Error_t DestroyStack(Stack_t* stk)
         return stack_error;
     }
 
-    free(stk->data);
-    free(stk);
 
-    return stack_error;
+    free(stk->data);
+    stk->capacity = 0;
+    stk->size = 0;
+    stk->hash_struct.hash_stack = 0;
+    stk->hash_struct.hash_data = 0;
+
+    return FOUND_OK;
 }
 
 Error_t DumpStack(Stack_t stk)
