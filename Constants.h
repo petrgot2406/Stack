@@ -7,6 +7,7 @@
 
 typedef long long int canary_type;
 typedef int stackelem_t;
+
 const canary_type canary = 0xDEDDEDDEDDEDDEDF;
 
 enum Error_t
@@ -16,7 +17,9 @@ enum Error_t
     ERROR_OVERFLOW = 2,
     ERROR_DATA = 3,
     ERROR_CANARY_STACK = 4,
-    ERROR_CANARY_DATA = 5
+    ERROR_CANARY_DATA = 5,
+    ERROR_HASH_STACK = 6,
+    ERROR_HASH_DATA = 7
 };
 
 #endif
