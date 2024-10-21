@@ -60,8 +60,9 @@ Error_t PopStack(Stack_t* stk)
     stk->hash_struct.hash_stack = Hash((char*)stk,
                                        sizeof(canary_type*) +
                                        2 * sizeof(size_t));
-    stk->hash_struct.hash_data = Hash((char*)stk->data, 2 * sizeof(canary_type) +
-                                             stk->capacity * sizeof(stackelem_t));
+    stk->hash_struct.hash_data = Hash((char*)stk->data,
+                                      2 * sizeof(canary_type) +
+                                      stk->capacity * sizeof(stackelem_t));
 
     DumpStack(*stk);
 
