@@ -25,8 +25,12 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     *((stackelem_t*)(stk->data + 1) + stk->size) = new_elem;
     stk->size++;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk, sizeof(canary_type*) + 2 * sizeof(size_t));
-    stk->hash_struct.hash_data = Hash((char*)stk->data, 2 * sizeof(canary_type) + stk->capacity * sizeof(stackelem_t));
+    stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type*) +
+                                       2 * sizeof(size_t));
+    stk->hash_struct.hash_data = Hash((char*)stk->data,
+                                      2 * sizeof(canary_type) +
+                                      stk->capacity * sizeof(stackelem_t));
 
     DumpStack(*stk);
 
@@ -53,8 +57,11 @@ Error_t PopStack(Stack_t* stk)
     *((stackelem_t*)(stk->data + 1) + stk->size) = 0;
     stk->size--;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk, sizeof(canary_type*) + 2 * sizeof(size_t));
-    stk->hash_struct.hash_data = Hash((char*)stk->data, 2 * sizeof(canary_type) + stk->capacity * sizeof(stackelem_t));
+    stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type*) +
+                                       2 * sizeof(size_t));
+    stk->hash_struct.hash_data = Hash((char*)stk->data, 2 * sizeof(canary_type) +
+                                             stk->capacity * sizeof(stackelem_t));
 
     DumpStack(*stk);
 
@@ -81,8 +88,12 @@ Error_t InitStack(Stack_t* stk)
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk, sizeof(canary_type*) + 2 * sizeof(size_t));
-    stk->hash_struct.hash_data = Hash((char*)stk->data, 2 * sizeof(canary_type) + stk->capacity * sizeof(stackelem_t));
+    stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type*) +
+                                       2 * sizeof(size_t));
+    stk->hash_struct.hash_data = Hash((char*)stk->data,
+                                      2 * sizeof(canary_type) +
+                                      stk->capacity * sizeof(stackelem_t));
 
     return FOUND_OK;
 }
