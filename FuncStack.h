@@ -9,7 +9,7 @@ Error_t PopStack(Stack_t* stk);
 Error_t InitStack(Stack_t* stk);
 Error_t DestroyStack(Stack_t* stk);
 Error_t DumpStack(Stack_t stk);
-Error_t CheckStack(Stack_t stk);
+Error_t CheckStack(Stack_t* stk);
 Error_t ReallocData(Stack_t* stk);
 unsigned long Hash(char* data, size_t size);
 

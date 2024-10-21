@@ -7,7 +7,7 @@
 
 Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 {
-    Error_t stack_error = CheckStack(*stk);
+    Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
     {
@@ -26,8 +26,10 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     stk->size++;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type) +
                                        sizeof(canary_type*) +
                                        2 * sizeof(size_t));
+
     stk->hash_struct.hash_data = Hash((char*)stk->data,
                                       2 * sizeof(canary_type) +
                                       stk->capacity * sizeof(stackelem_t));
@@ -39,7 +41,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
 Error_t PopStack(Stack_t* stk)
 {
-    Error_t stack_error = CheckStack(*stk);
+    Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
     {
@@ -58,8 +60,10 @@ Error_t PopStack(Stack_t* stk)
     stk->size--;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type) +
                                        sizeof(canary_type*) +
                                        2 * sizeof(size_t));
+
     stk->hash_struct.hash_data = Hash((char*)stk->data,
                                       2 * sizeof(canary_type) +
                                       stk->capacity * sizeof(stackelem_t));
@@ -90,8 +94,10 @@ Error_t InitStack(Stack_t* stk)
                       stk->capacity * sizeof(stackelem_t))) = canary;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type) +
                                        sizeof(canary_type*) +
                                        2 * sizeof(size_t));
+
     stk->hash_struct.hash_data = Hash((char*)stk->data,
                                       2 * sizeof(canary_type) +
                                       stk->capacity * sizeof(stackelem_t));
@@ -102,13 +108,12 @@ Error_t InitStack(Stack_t* stk)
 Error_t DestroyStack(Stack_t* stk)
 {
 
-    Error_t stack_error = CheckStack(*stk);
+    Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
     {
         return stack_error;
     }
-
 
     free(stk->data);
     stk->capacity = 0;
@@ -121,7 +126,7 @@ Error_t DestroyStack(Stack_t* stk)
 
 Error_t DumpStack(Stack_t stk)
 {
-    Error_t stack_error = CheckStack(stk);
+    Error_t stack_error = CheckStack(&stk);
 
     if (stack_error != FOUND_OK)
     {
@@ -140,40 +145,51 @@ Error_t DumpStack(Stack_t stk)
 
     printf("\n");
 
-    return stack_error;
+    return FOUND_OK;
 }
 
-Error_t CheckStack(Stack_t stk)
+Error_t CheckStack(Stack_t* stk)
 {
-    if (stk.size >= stk.capacity)
+    if (stk->size >= stk->capacity)
     {
         printf("ERROR IN SIZE OF STACK!\n");
         return ERROR_OVERFLOW;
     }
 
-    if (stk.data == NULL)
+    if (stk->data == NULL)
     {
         printf("ERROR IN DATA!\n");
         return ERROR_DATA;
     }
 
-    if (stk.canary_start != canary || stk.canary_end != canary)
+    if (stk->canary_start != canary || stk->canary_end != canary)
     {
         printf("ERROR IN CANARY STACK!\n");
         return ERROR_CANARY_STACK;
     }
 
-    if (stk.data[0] != canary ||
-        *((canary_type*)((char*)stk.data + sizeof(canary_type) +
-                          stk.capacity * sizeof(stackelem_t))) != canary)
+    if (stk->data[0] != canary ||
+        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
+                          stk->capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
     }
 
-    if (Hash((char*)stk.data, 2 * sizeof(canary_type) +
-                    stk.capacity * sizeof(stackelem_t)) !=
-                    stk.hash_struct.hash_data)
+    if (Hash((char*)stk,
+             sizeof(canary_type) +
+             sizeof(canary_type*) +
+             2 * sizeof(size_t)) !=
+             stk->hash_struct.hash_stack)
+    {
+        printf("ERROR IN HASH STACK!\n");
+        return ERROR_HASH_STACK;
+    }
+
+    if (Hash((char*)stk->data,
+             2 * sizeof(canary_type) +
+             stk->capacity * sizeof(stackelem_t)) !=
+             stk->hash_struct.hash_data)
     {
         printf("ERROR IN HASH DATA!\n");
         return ERROR_HASH_DATA;
@@ -191,7 +207,7 @@ Error_t ReallocData(Stack_t* stk)
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
 
-    Error_t stack_error = CheckStack(*stk);
+    Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
     {
