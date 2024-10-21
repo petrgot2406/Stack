@@ -170,19 +170,18 @@ Error_t CheckStack(Stack_t* stk)
 
     if (stk->data[0] != canary ||
         *((canary_type*)((char*)stk->data +
-                         sizeof(canary_type) +
-                         stk->capacity * sizeof(stackelem_t))) !=
-                         canary)
+        sizeof(canary_type) +
+        stk->capacity * sizeof(stackelem_t))) != canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
     }
 
     if (Hash((char*)stk,
-             sizeof(canary_type) +
-             sizeof(canary_type*) +
-             2 * sizeof(size_t)) !=
-             stk->hash_struct.hash_stack)
+        sizeof(canary_type) +
+        sizeof(canary_type*) +
+        2 * sizeof(size_t)) !=
+        stk->hash_struct.hash_stack)
     {
         printf("ERROR IN HASH STACK!\n");
         return ERROR_HASH_STACK;
