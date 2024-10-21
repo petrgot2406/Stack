@@ -169,8 +169,10 @@ Error_t CheckStack(Stack_t* stk)
     }
 
     if (stk->data[0] != canary ||
-        *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                          stk->capacity * sizeof(stackelem_t))) != canary)
+        *((canary_type*)((char*)stk->data +
+                         sizeof(canary_type) +
+                         stk->capacity * sizeof(stackelem_t))) !=
+                         canary)
     {
         printf("ERROR IN CANARY DATA!\n");
         return ERROR_CANARY_DATA;
@@ -204,8 +206,9 @@ Error_t ReallocData(Stack_t* stk)
                                       stk->capacity * sizeof(stackelem_t));
 
     stk->data[0] = canary;
-    *((canary_type*)((char*)stk->data + sizeof(canary_type) +
-                      stk->capacity * sizeof(stackelem_t))) = canary;
+    *((canary_type*)((char*)stk->data +
+                     sizeof(canary_type) +
+                     stk->capacity * sizeof(stackelem_t))) = canary;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
                                        sizeof(canary_type) +
