@@ -207,6 +207,15 @@ Error_t ReallocData(Stack_t* stk)
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
 
+    stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type) +
+                                       sizeof(canary_type*) +
+                                       2 * sizeof(size_t));
+
+    stk->hash_struct.hash_data = Hash((char*)stk->data,
+                                      2 * sizeof(canary_type) +
+                                      stk->capacity * sizeof(stackelem_t));
+
     Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
