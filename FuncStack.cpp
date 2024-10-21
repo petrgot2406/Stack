@@ -124,7 +124,7 @@ Error_t DestroyStack(Stack_t* stk)
 
     free(stk->data);
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t DumpStack(Stack_t stk)
@@ -148,7 +148,7 @@ Error_t DumpStack(Stack_t stk)
 
     printf("\n");
 
-    return FOUND_OK;
+    return stack_error;
 }
 
 Error_t CheckStack(Stack_t* stk)
