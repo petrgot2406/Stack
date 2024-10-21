@@ -23,6 +23,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
     printf("push %d\n", new_elem);
 
     *((stackelem_t*)(stk->data + 1) + stk->size) = new_elem;
+
     stk->size++;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
@@ -57,6 +58,7 @@ Error_t PopStack(Stack_t* stk)
     printf("pop\n");
 
     *((stackelem_t*)(stk->data + 1) + stk->size) = 0;
+
     stk->size--;
 
     stk->hash_struct.hash_stack = Hash((char*)stk,
@@ -89,6 +91,7 @@ Error_t InitStack(Stack_t* stk)
 
     stk->data = (canary_type*)calloc(sizeof(canary_type) * 2 +
                                      stk->capacity * sizeof(stackelem_t), 1);
+
     stk->data[0] = canary;
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
@@ -107,7 +110,6 @@ Error_t InitStack(Stack_t* stk)
 
 Error_t DestroyStack(Stack_t* stk)
 {
-
     Error_t stack_error = CheckStack(stk);
 
     if (stack_error != FOUND_OK)
@@ -115,11 +117,12 @@ Error_t DestroyStack(Stack_t* stk)
         return stack_error;
     }
 
-    free(stk->data);
     stk->capacity = 0;
     stk->size = 0;
     stk->hash_struct.hash_stack = 0;
     stk->hash_struct.hash_data = 0;
+
+    free(stk->data);
 
     return FOUND_OK;
 }
@@ -201,10 +204,12 @@ Error_t CheckStack(Stack_t* stk)
 
 Error_t ReallocData(Stack_t* stk)
 {
-    stk->data = (canary_type*)realloc(stk->data, sizeof(canary_type) * 2 +
+    stk->data = (canary_type*)realloc(stk->data,
+                                      sizeof(canary_type) * 2 +
                                       stk->capacity * sizeof(stackelem_t));
 
     stk->data[0] = canary;
+
     *((canary_type*)((char*)stk->data +
                      sizeof(canary_type) +
                      stk->capacity * sizeof(stackelem_t))) = canary;
