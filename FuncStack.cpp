@@ -84,7 +84,7 @@ Error_t InitStack(Stack_t* stk)
     stk->size = 0;
 
     stk->data = (canary_type*)calloc(sizeof(canary_type) * 2 +
-                                         stk->capacity * sizeof(stackelem_t), 1);
+                                     stk->capacity * sizeof(stackelem_t), 1);
     stk->data[0] = canary;
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
