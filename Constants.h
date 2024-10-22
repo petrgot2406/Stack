@@ -14,13 +14,13 @@ enum Error_t
 {
     FOUND_OK = 0,
     ERROR_ADDRESS = 1,
-    ERROR_OVERFLOW = 1 << 2,
-    ERROR_DATA = 1 << 3,
-    ERROR_CANARY_STACK = 1 << 4,
-    ERROR_CANARY_DATA = 1 << 5,
-    ERROR_HASH_ADDRESS = 1 << 6,
-    ERROR_HASH_STACK = 1 << 7,
-    ERROR_HASH_DATA = 1 << 8
+    ERROR_OVERFLOW = 1 << 1,
+    ERROR_DATA = 1 << 2,
+    ERROR_CANARY_STACK = 1 << 3,
+    ERROR_CANARY_DATA = 1 << 4,
+    ERROR_HASH_ADDRESS = 1 << 5,
+    ERROR_HASH_STACK = 1 << 6,
+    ERROR_HASH_DATA = 1 << 7
 };
 
 #endif
