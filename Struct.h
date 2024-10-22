@@ -5,8 +5,8 @@
 
 struct HashStruct
 {
-    unsigned long hash_stack;
-    unsigned long hash_data;
+    unsigned long stack_hash;
+    unsigned long data_hash;
 };
 
 struct Stack_t

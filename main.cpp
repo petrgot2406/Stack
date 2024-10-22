@@ -1,46 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Constants.h"
-#include "FuncStack.h"
 #include "Struct.h"
+#include "StackFunc.h"
+#include "StackUtils.h"
+#include "StackHash.h"
 
 int main()
 {
-    Stack_t stk = {};
+    Stack_t stack = {};
 
-    InitStack(&stk);
+    InitStack(&stack);
 
-    PushStack(&stk, 10);
-    PushStack(&stk, 20);
-    PushStack(&stk, 30);
-    PushStack(&stk, 40);
-    PushStack(&stk, 50);
-    PushStack(&stk, 60);
-    PushStack(&stk, 70);
-    PushStack(&stk, 80);
-    PushStack(&stk, 90);
-    PushStack(&stk, 100);
-    PushStack(&stk, 110);
-    PushStack(&stk, 120);
-    PushStack(&stk, 130);
-    PushStack(&stk, 140);
-    PushStack(&stk, 150);
-    PushStack(&stk, 160);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
-    PopStack(&stk);
+    PushStack(&stack, 10);
+    PushStack(&stack, 20);
+    PushStack(&stack, 30);
+    PushStack(&stack, 40);
+    PushStack(&stack, 50);
+    PushStack(&stack, 60);
+    PushStack(&stack, 70);
+    PushStack(&stack, 80);
+    PushStack(&stack, 90);
+    PushStack(&stack, 100);
+    PushStack(&stack, 110);
+    PushStack(&stack, 120);
+    PushStack(&stack, 130);
+    PushStack(&stack, 140);
+    PushStack(&stack, 150);
+    PushStack(&stack, 160);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
+    PopStack(&stack);
 
-    DestroyStack(&stk);
+    DestroyStack(&stack);
 
     return 0;
 }
