@@ -18,8 +18,9 @@ enum Error_t
     ERROR_DATA = 3,
     ERROR_CANARY_STACK = 4,
     ERROR_CANARY_DATA = 5,
-    ERROR_HASH_STACK = 6,
-    ERROR_HASH_DATA = 7
+    ERROR_HASH_ADDRESS = 6,
+    ERROR_HASH_STACK = 7,
+    ERROR_HASH_DATA = 8
 };
 
 #endif

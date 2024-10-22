@@ -26,14 +26,7 @@ Error_t PushStack(Stack_t* stk, stackelem_t new_elem)
 
     stk->size++;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk,
-                                       sizeof(canary_type) +
-                                       sizeof(canary_type*) +
-                                       2 * sizeof(size_t));
-
-    stk->hash_struct.hash_data = Hash((char*)stk->data,
-                                      2 * sizeof(canary_type) +
-                                      stk->capacity * sizeof(stackelem_t));
+    ChangeHash(stk);
 
     DumpStack(*stk);
 
@@ -61,14 +54,7 @@ Error_t PopStack(Stack_t* stk)
 
     stk->size--;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk,
-                                       sizeof(canary_type) +
-                                       sizeof(canary_type*) +
-                                       2 * sizeof(size_t));
-
-    stk->hash_struct.hash_data = Hash((char*)stk->data,
-                                      2 * sizeof(canary_type) +
-                                      stk->capacity * sizeof(stackelem_t));
+    ChangeHash(stk);
 
     DumpStack(*stk);
 
@@ -96,14 +82,7 @@ Error_t InitStack(Stack_t* stk)
     *((canary_type*)((char*)stk->data + sizeof(canary_type) +
                       stk->capacity * sizeof(stackelem_t))) = canary;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk,
-                                       sizeof(canary_type) +
-                                       sizeof(canary_type*) +
-                                       2 * sizeof(size_t));
-
-    stk->hash_struct.hash_data = Hash((char*)stk->data,
-                                      2 * sizeof(canary_type) +
-                                      stk->capacity * sizeof(stackelem_t));
+    ChangeHash(stk);
 
     return FOUND_OK;
 }
@@ -214,14 +193,7 @@ Error_t ReallocData(Stack_t* stk)
                      sizeof(canary_type) +
                      stk->capacity * sizeof(stackelem_t))) = canary;
 
-    stk->hash_struct.hash_stack = Hash((char*)stk,
-                                       sizeof(canary_type) +
-                                       sizeof(canary_type*) +
-                                       2 * sizeof(size_t));
-
-    stk->hash_struct.hash_data = Hash((char*)stk->data,
-                                      2 * sizeof(canary_type) +
-                                      stk->capacity * sizeof(stackelem_t));
+    ChangeHash(stk);
 
     Error_t stack_error = CheckStack(stk);
 
@@ -231,6 +203,26 @@ Error_t ReallocData(Stack_t* stk)
     }
 
     return stack_error;
+}
+
+Error_t ChangeHash(Stack_t* stk)
+{
+    if (stk == NULL)
+    {
+        printf("ERROR IN HASH ADDRESS!\n");
+        return ERROR_HASH_ADDRESS;
+    }
+
+    stk->hash_struct.hash_stack = Hash((char*)stk,
+                                       sizeof(canary_type) +
+                                       sizeof(canary_type*) +
+                                       2 * sizeof(size_t));
+
+    stk->hash_struct.hash_data = Hash((char*)stk->data,
+                                      2 * sizeof(canary_type) +
+                                      stk->capacity * sizeof(stackelem_t));
+
+    return FOUND_OK;
 }
 
 unsigned long Hash(char* data, size_t size)
