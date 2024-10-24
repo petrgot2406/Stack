@@ -43,7 +43,7 @@ Error_t PopStack(Stack_t* stack)
         return stack_error;
     }
 
-    if (4 * (stack->size - 2) < stack->capacity)
+    if (4 * (stack->size - 2) < stack->capacity && stack->size >= 3)
     {
         stack->capacity /= 2;
         ReallocStackData(stack);
@@ -65,7 +65,7 @@ Error_t InitStack(Stack_t* stack)
 {
     if (stack == NULL)
     {
-        printf("ERROR IN ADDRESS OF stack!\n");
+        printf("ERROR IN ADDRESS OF STACK!\n");
         return ERROR_ADDRESS;
     }
 
